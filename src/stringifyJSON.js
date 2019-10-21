@@ -35,9 +35,13 @@ var stringifyJSON = function(obj) {
     var firstObj = '{';
     for (var i = 0; i < array.length; i ++) {
       if (obj[array[i]] === undefined || typeof obj[array[i]] === 'function') {
-        return '{}';
-      }
-      if (i === array.length - 1) {
+        delete obj[array[i]];
+        var toss = array.splice(0, 1);
+        i--;
+        if (array.length === 0) {
+          firstObj += '}';
+        }
+      } else if (i === array.length - 1) {
         firstObj += stringifyJSON(array[i]) + ':' + stringifyJSON(obj[array[i]]) + '}';
       } else {
         firstObj += stringifyJSON(array[i]) + ':' + stringifyJSON(obj[array[i]]) + ',';
